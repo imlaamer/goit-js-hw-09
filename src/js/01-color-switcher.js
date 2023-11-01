@@ -1,24 +1,25 @@
-const bodyEl = document.querySelector('body');
-const btnStartEl = document.querySelector('button[data-start]');
-const btnStopEl = document.querySelector('button[data-stop]');
+import { refs } from './refs';
+import { getRandomHexColor } from './helpers';
+
 let timerId = null;
+refs.btnStartSwitchEl.disabled = false;
+refs.btnStopSwitchEl.disabled = true;
 
-function getRandomHexColor() {
-  return `#${Math.floor(Math.random() * 16777215)
-    .toString(16)
-    .padStart(6, 0)}`;
-}
-
-btnStartEl.addEventListener('click', changeColorEverySecond);
 function changeColorEverySecond() {
+  refs.btnStartSwitchEl.disabled = true;
+  refs.btnStopSwitchEl.disabled = false;
+  refs.bodyEl.style.backgroundColor = getRandomHexColor();
   timerId = setInterval(() => {
-    bodyEl.style.backgroundColor = getRandomHexColor();
-    btnStartEl.disabled = true;
+    refs.bodyEl.style.backgroundColor = getRandomHexColor();
   }, 1000);
 }
+refs.btnStartSwitchEl.addEventListener('click', changeColorEverySecond);
 
-btnStopEl.addEventListener('click', stopChangingColor);
 function stopChangingColor() {
-  btnStartEl.disabled = false;;
+  refs.btnStartSwitchEl.disabled = false;
+  refs.btnStopSwitchEl.disabled = true;
   clearInterval(timerId);
 }
+refs.btnStopSwitchEl.addEventListener('click', stopChangingColor);
+
+//дублювання коду?
